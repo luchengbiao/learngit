@@ -1,0 +1,69 @@
+mkdir dirname
+cd dirname
+pwd  // print current dir name
+ls  // list all file in current dir
+
+1
+git init  // init a dir to a git repository
+
+2
+git add filename [more filenames]   // add files to current git repository Index （暂存区）
+
+3
+git commit -m "some message"  // commit "add" to current git repository with a message (-m)  （只提交暂存区中的内容到当前分支中）
+
+4
+git status  // check current git repository status: modified files etc.
+
+5
+git diff filename  // show the difference between filename with its last version in repository
+
+6
+git reset --hard HEAD^ // reverse to a history version releted to current version represented HEAD
+
+7
+git reflog   // list the git command history
+
+8 
+git checkout -- filename  // 重新checkout某文件
+
+有两种情况：
+
+一种是filename自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；
+
+一种是filename已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。
+
+总之，就是让这个文件回到最近一次git commit或git add时的状态。
+
+9
+git reset HEAD filename  // 把暂存区中filename的修改重置到工作区中
+
+10
+rm filename
+git rm filename
+
+11
+git remote add origin git@github.com:luchengbiao/learngit.git  // 在本地仓库中运行：将本地仓库和远程仓库origin关联起来
+git push -u origin master   // 将本地仓库master分支的内容推送到远程仓库origin中的master分支, 第一次使用时需加 -u 表示关联union
+git push -u origin master
+
+12
+git clone gitUrl   // 从远程git仓库克隆一份到本地仓库
+
+13  分支：
+git branch branchName // 以当前分支创建分支branchName
+
+git checkout branchName  // 切换到分支branchName
+
+git branch // 列出所有分支，并用 * 标识出当前分支
+
+git merge branchName  // 将分支branchName合并到当前分支
+
+git branch -d branchName // 删除分支branchName
+
+git checkout -b branchName  
+等价于：
+git branch branchNamegit 
+checkout branchName
+
+14
