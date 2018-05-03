@@ -60,6 +60,7 @@ git branch // 列出所有分支，并用 * 标识出当前分支
 git merge branchName  // 将分支branchName合并到当前分支
 
 git branch -d branchName // 删除分支branchName
+git branch -D branchName // 强制删除未合并的分支branchName
 
 git checkout -b branchName  
 等价于：
@@ -67,3 +68,16 @@ git branch branchNamegit
 checkout branchName
 
 git log --graph --pretty=oneline --abbrev-commit // 可以查看分支合并情况 
+
+git merge --no-ff -m "merge with no-ff" branchName  // merge without fast-forward mode
+
+// 穿插修改bug
+git stash  // 存储当前分支现场 比如branchName
+。。。 // 一些在其他分支的操作
+git checkout branchName // 切换到分支branchName
+git stash pop
+
+git stash list  // 列出分支存储信息列表
+git stash apply stash@{0}
+git stash apply drop@{0}
+
