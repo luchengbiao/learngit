@@ -66,4 +66,4 @@ git checkout -b branchName
 git branch branchNamegit 
 checkout branchName
 
-14
+git log --graph --pretty=oneline --abbrev-commit // 可以查看分支合并情况 
