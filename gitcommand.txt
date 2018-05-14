@@ -42,10 +42,15 @@ git reset HEAD filename  // 把暂存区中filename的修改重置到工作区�
 rm filename
 git rm filename
 
-11
+11 多人协作：
 git remote add origin git@github.com:luchengbiao/learngit.git  // 在本地仓库中运行：将本地仓库和远程仓库origin关联起来
 git push -u origin master   // 将本地仓库master分支的内容推送到远程仓库origin中的master分支, 第一次使用时需加 -u 表示关联union
-git push -u origin master
+git push origin master
+
+try to: git push origin branchName
+if failed then: git pull  // 从远程仓库拉取更新并合并
+if conflicts occur then: fix conflicts and commit in local
+after conflicts fixed: git push origin branchName
 
 12
 git clone gitUrl   // 从远程git仓库克隆一份到本地仓库
@@ -81,3 +86,15 @@ git stash list  // 列出分支存储信息列表
 git stash apply stash@{0}
 git stash apply drop@{0}
 
+
+
+14:
+git remote -v  // 查看远程仓库信息
+
+git push origin branchName
+if failed then: git pull  // 从远程仓库拉取更新并合并
+if conflicts occur then: fix conflicts and commit in local
+after conflicts fixed: git push origin branchName
+
+git checkout -b branchName origin/branchName  // 在本地创建和远程分支对应的分支
+git branch --set-upstream branchName origin/branchName // 建立本地分支和远程分支的关联
