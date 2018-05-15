@@ -1,7 +1,7 @@
 #include "api_result.h"
 #include "log_manager\log.h"
 
-class ApiResultPrivate
+class ApiResult::ApiResultPrivate
 {
 	friend class ApiResult;
 
@@ -74,8 +74,8 @@ ApiResult::ApiResult(ApiResult&& right)
 	: _ptr(right.Release())
 {}
 
-ApiResult::ApiResult(const ApiResult& right)
-	: _ptr(const_cast<ApiResult&>(right).Release())
+ApiResult::ApiResult(const ApiResult& right, bool moveFlag/* = true*/)
+	: _ptr(moveFlag ? (const_cast<ApiResult&>(right).Release()) : (right._ptr ? (new ApiResultPrivate(*right._ptr)) : (new ApiResultPrivate())))
 {}
 
 ApiResult::~ApiResult()
@@ -96,7 +96,7 @@ ApiResult& ApiResult::operator=(ApiResult&& right)
 	return (*this);
 }
 
-ApiResultPrivate* ApiResult::Get()
+ApiResult::ApiResultPrivate* ApiResult::Get()
 {
 	return _ptr;
 }
@@ -111,7 +111,7 @@ void ApiResult::Reset(ApiResultPrivate* ptr)
 	}
 }
 
-ApiResultPrivate* ApiResult::Release()
+ApiResult::ApiResultPrivate* ApiResult::Release()
 {
 	auto ptr = _ptr;
 	_ptr = nullptr;

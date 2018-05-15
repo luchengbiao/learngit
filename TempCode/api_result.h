@@ -10,12 +10,14 @@ enum API_RESULT_CODE
 	MOBILE_NOT_EXIST
 };
 
-class ApiResultPrivate;
-
-// like std::unique_ptr<ApiResultPrivate>
-// but even in ApiResult(const ApiResult& right) still move the right
+// Like std::unique_ptr<ApiResultPrivate>,
+// But even in ApiResult(const ApiResult& right) still move the right,
+// Because the problem is that std::function(including functor, std::bind, lambda) must be CopyConstructible, 
+// Which requires its argument(which will be stored by the function) also be CopyConstructible.
 class ApiResult
 {
+	class ApiResultPrivate;
+
 public:
 	ApiResult();
 	ApiResult(const Json::Value& value);
@@ -24,11 +26,9 @@ public:
 	
 	
 	~ApiResult();
-
-	// Ugly to prevent compile error:
-	// The problem is that std::function must be CopyConstructible, 
-	// which requires its argument(which will be stored by the function) also be CopyConstructible.
-	ApiResult(const ApiResult&); 
+	
+	ApiResult(const ApiResult&, bool moveFlag = true);
+	ApiResult& operator=(const ApiResult&) = delete;
 
 public:
 	ApiResultPrivate*   Get();
@@ -36,30 +36,30 @@ public:
 	ApiResultPrivate*	Release();
 
 public:
-	static void		Parse(std::string json, ApiResult& api_result);
+	static void			Parse(std::string json, ApiResult& api_result);
 
-	bool			Success();
-	bool			ParseSuccess();
-	int				GetCode();
-	std::string		GetMsg();
-	std::string		GetOtherMsg();
-	Json::Value		GetData() const;
-	Json::Value		GetExtraData()const;
+	bool				Success();
+	bool				ParseSuccess();
+	int					GetCode();
+	std::string			GetMsg();
+	std::string			GetOtherMsg();
+	Json::Value			GetData() const;
+	Json::Value			GetExtraData()const;
 
-	int				GetDataInt(const char* key) const;
-	double			GetDataDouble(const char* key) const;
-	bool			GetDataBool(const char* key);
-	std::string		GetDataString(const char* key) const;
-	Json::Value		GetDataJsonValue(const char* key) const;
-	uint64_t		GetDataLong(const char* key) const;
+	int					GetDataInt(const char* key) const;
+	double				GetDataDouble(const char* key) const;
+	bool				GetDataBool(const char* key);
+	std::string			GetDataString(const char* key) const;
+	Json::Value			GetDataJsonValue(const char* key) const;
+	uint64_t			GetDataLong(const char* key) const;
 
-	bool			KeyDataNull(const char* key);
-	bool			HasKey(const char* key);
+	bool				KeyDataNull(const char* key);
+	bool				HasKey(const char* key);
 
-	void			SetMsg(std::wstring msg_);
-	void			SetCode(int c_);
-	bool			NetFailed();
+	void				SetMsg(std::wstring msg_);
+	void				SetCode(int c_);
+	bool				NetFailed();
 
 private:
-	ApiResultPrivate* _ptr;
+	ApiResultPrivate*	_ptr;
 };
